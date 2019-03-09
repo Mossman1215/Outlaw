@@ -1,0 +1,6 @@
+{
+    "bucket":"Your-vault-bucket",
+    "environment":"your-vault-name",
+    "region":"Region-with-frisp",
+    "filename":"file-to-decrypt"
+}
