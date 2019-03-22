@@ -53,7 +53,7 @@ func HandleRequest(ctx context.Context, config event) (string, error) {
 	bucket := config.Bucket
 	env := config.Env
 	//filename := config.Filename
-	item := "_private/" + env + ".enc"
+	encitem := env + "/" + config.Filename
 	sess, _ := session.NewSession(&aws.Config{
 		Region: aws.String(config.Region)},
 	)
@@ -62,12 +62,12 @@ func HandleRequest(ctx context.Context, config event) (string, error) {
 	encValue := aws.NewWriteAtBuffer([]byte{})
 	requestInput := &s3.GetObjectInput{
 		Bucket: aws.String(bucket),
-		Key:    aws.String(item),
+		Key:    aws.String(encitem),
 	}
 	numBytes, err := downloader.Download(encValue,
 		requestInput)
 	if err != nil {
-		exitErrorf("Unable to download item %q, %v", item, err)
+		exitErrorf("Unable to download item %q, %v", encitem, err)
 	}
 
 	fmt.Println("Downloaded", len(encValue.Bytes()), numBytes, "bytes")
